@@ -67,7 +67,7 @@ Clone this repository to your desired folder:
 sh
 - Create a folder
 - cd in to folder you just created
-- Type git clone https://github.com/NalianAchei2020/AwesomeBooks_ES6.git
+- Type git clone https://github.com/NalianAchei2020/To_Do_List.git
 
 ### Install
 
@@ -110,7 +110,7 @@ You can deploy this project using:
 
 Contributions, issues, and feature requests are welcome!
 
-Feel free to check the [issues page](https://github.com/NalianAchei2020/AwesomeBooks_ES6/issues).
+Feel free to check the [issues page](https://github.com/NalianAchei2020/To_Do_List/issues).
 
 ## ⭐️ Show your support <a name="support"></a>
 
@@ -122,4 +122,4 @@ I would like to thank the Microverse community for their lessons
 
 ## 📝 License <a name="license"></a>
 
-This project is [MIT](https://github.com/NalianAchei2020/AwesomeBooks_ES6/blob/main/LICENSE) licensed
+This project is [MIT](https://github.com/NalianAchei2020/To_Do_List/blob/main/LICENSE) licensed
