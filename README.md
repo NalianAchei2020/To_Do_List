@@ -32,7 +32,7 @@
 
 # 📖 To_Do_List <a name="about-project"></a>
 
-This is a dynamic website developed with HTML, CSS, and JavaScript. where users can manage their daily task.
+"To_Do_List" is a tool that helps to organize your day. It simply lists the things that you need to do and allows you to mark them as complete
 
 *[To_Do_List]* is an HTML, Javascript, and CSS project
 
