@@ -33,7 +33,7 @@ const renderTask = () => {
     const span = document.createElement('span');
     span.textContent = task.description;
     li.appendChild(check);
-    check.appendChild(span);
+    li.appendChild(span);
     const ellipsis = document.createElement('i');
     ellipsis.classList.add('fa', 'fa-ellipsis-v');
     ellipsis.setAttribute('aria-hidden', 'true');

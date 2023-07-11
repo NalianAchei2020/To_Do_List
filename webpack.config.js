@@ -6,16 +6,23 @@ export default {
   output: {
     filename: 'main.js',
     path: path.resolve(process.cwd(), 'dist'),
+    clean: true,
+    publicPath: '/To_Do_List/',
   },
   module: {
     rules: [
       {
-        test: /\.css$/,
-        use: [
-          'style-loader',
-          'css-loader',
-          'sass-loader',
-        ],
+
+        test: /\.css$/i,
+
+        use: ['style-loader', 'css-loader'],
+      },
+      {
+
+        test: /\.(png|svg|jpg|jpeg|gif)$/i,
+
+        type: 'asset/resource',
+
       },
     ],
   },
@@ -30,8 +37,9 @@ export default {
   ],
 
   devServer: {
-    contentBase: path.join(process.cwd(), 'public'),
+    static: './dist',
     port: 500,
+    open: true,
   },
 
 };
