@@ -2,7 +2,9 @@ import path from 'path';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 
 export default {
+  mode: 'development',
   entry: './src/index.js',
+  devtool: 'inline-source-map',
   output: {
     filename: 'main.js',
     path: path.resolve(process.cwd(), 'dist'),
