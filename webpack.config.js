@@ -40,8 +40,6 @@ export default {
 
   devServer: {
     static: './dist',
-    port: 500,
-    open: true,
   },
 
 };
