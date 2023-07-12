@@ -9,7 +9,6 @@ export default {
     filename: 'main.js',
     path: path.resolve(process.cwd(), 'dist'),
     clean: true,
-    publicPath: '/To_Do_List/',
   },
   module: {
     rules: [
@@ -18,6 +17,10 @@ export default {
         test: /\.css$/i,
 
         use: ['style-loader', 'css-loader'],
+      },
+      {
+        test: /\.html$/i,
+        loader: 'html-loader',
       },
       {
 
@@ -37,9 +40,5 @@ export default {
 
     }),
   ],
-
-  devServer: {
-    static: './dist',
-  },
 
 };

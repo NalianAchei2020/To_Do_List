@@ -3,18 +3,19 @@
   "name": "to_do_list",
   "version": "1.0.0",
   "description": "<a name=\"readme-top\"></a>",
-  "main": "webpack.config.js",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack",
     "dev": "webpack serve",
-    "start": "webpack-dev-server --mode development --open"
+    "start": "webpack-dev-server --config webpack.config.js --open"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "css-loader": "^6.8.1",
+    "html-loader": "^4.2.0",
     "html-webpack-plugin": "^5.5.3",
     "lodash": "^4.17.21",
     "path": "^0.12.7",
