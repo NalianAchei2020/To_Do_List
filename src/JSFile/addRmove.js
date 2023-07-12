@@ -8,17 +8,18 @@ export const addTask = (description, tasks) => {
     id: Math.floor(Math.random() * 1000),
     description,
     completed: false,
+    index: tasks.length,
   };
   tasks.push(newTask);
 };
 
 export const removeTask = (id, tasks) => {
   // Remove the task from the tasks array
-  const index = tasks.findIndex((task) => task.id === id);
-  if (index !== -1) {
+  const task = tasks.findIndex((task) => task.id === id);
+  if (task) {
     // Remove the task from the tasks array
+    const index = tasks.indexOf(task);
     tasks.splice(index, 1);
-    // Update the index of the remaining task
   }
 };
 

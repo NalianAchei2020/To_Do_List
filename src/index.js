@@ -20,10 +20,4 @@ todoInput.addEventListener('keypress', (event) => {
   }
 });
 
-const completeButton = document.querySelector('.complete');
-completeButton.addEventListener('click', () => {
-  const task = tasks.filter((task) => !task.completed);
-  renderTasks(task);
-  saveTasks(task);
-});
 window.addEventListener('load', renderTasks(tasks));
