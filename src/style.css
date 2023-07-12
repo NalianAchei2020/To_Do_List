@@ -90,3 +90,15 @@ button {
   font-size: 1rem;
   color: rgb(184, 181, 181);
 }
+
+.inputEdit{
+  border: none;
+  outline: none;
+  margin-left: 0.5em;
+}
+
+.fa-trash{
+  color: rgb(184, 181, 181);
+  position: absolute;
+  right: 10%;
+}

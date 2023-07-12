@@ -1,15 +1,15 @@
 import './style.css';
 import {
-  addTask, removeTask, editTask, renderTasks, saveTasks,
-} from './JSFile/addRmove';
+  addTask, renderTasks, saveTasks,
+} from './JSFile/addRmove.js';
 
 // Retrieve tasks from local storage if available, or initialize with an empty array
 const tasks = localStorage.getItem('tasks') ? JSON.parse(localStorage.getItem('tasks')) : [];
 
 // Event listeners for adding new tasks
 const todoInput = document.getElementById('todo');
-todoInput.addEventListener('keydown', (e) => {
-  if (e.keyCode === 13) {
+todoInput.addEventListener('keypress', (event) => {
+  if (event.key === 'Enter') {
     const todoDesc = todoInput.value;
     if (todoDesc) {
       addTask(todoDesc, tasks);
@@ -20,4 +20,10 @@ todoInput.addEventListener('keydown', (e) => {
   }
 });
 
+const completeButton = document.querySelector('.complete');
+completeButton.addEventListener('click', () => {
+  const task = tasks.filter((task) => !task.completed);
+  renderTasks(task);
+  saveTasks(task);
+});
 window.addEventListener('load', renderTasks(tasks));
