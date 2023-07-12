@@ -1,45 +1,23 @@
 import './style.css';
+import {
+  addTask, removeTask, editTask, renderTasks, saveTasks,
+} from './JSFile/addRmove';
 
-const task = [
-  {
-    description: 'wash the dishes',
-    completed: false,
-    index: 1,
-  },
-  {
-    description: 'complete To Do list project',
-    completed: false,
-    index: 2,
-  },
-  {
-    description: 'Deploy the app to the server',
-    completed: false,
-    index: 3,
-  },
+// Retrieve tasks from local storage if available, or initialize with an empty array
+const tasks = localStorage.getItem('tasks') ? JSON.parse(localStorage.getItem('tasks')) : [];
 
-];
+// Event listeners for adding new tasks
+const todoInput = document.getElementById('todo');
+todoInput.addEventListener('keydown', (e) => {
+  if (e.keyCode === 13) {
+    const todoDesc = todoInput.value;
+    if (todoDesc) {
+      addTask(todoDesc, tasks);
+      renderTasks(tasks);
+      saveTasks(tasks);
+      todoInput.value = '';
+    }
+  }
+});
 
-const renderTask = () => {
-  const taskList = document.getElementById('list');
-  taskList.innerHTML = '';
-  // sort tasks by index
-  task.sort((a, b) => a.index - b.index);
-
-  task.forEach((task) => {
-    const li = document.createElement('li');
-    li.classList = 'listItmes';
-    const check = document.createElement('input');
-    check.type = 'checkbox';
-    const span = document.createElement('span');
-    span.textContent = task.description;
-    li.appendChild(check);
-    li.appendChild(span);
-    const ellipsis = document.createElement('i');
-    ellipsis.classList.add('fa', 'fa-ellipsis-v');
-    ellipsis.setAttribute('aria-hidden', 'true');
-    li.appendChild(ellipsis);
-    taskList.appendChild(li);
-  });
-};
-
-window.addEventListener('load', renderTask);
+window.addEventListener('load', renderTasks(tasks));
