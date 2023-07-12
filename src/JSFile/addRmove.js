@@ -6,7 +6,6 @@ export const saveTasks = (tasks) => {
 export const addTask = (description) => {
   const tasks = JSON.parse(localStorage.getItem('tasks')) ?? [];
   const newTask = {
-    id: Math.floor(Math.random() * 1000),
     description,
     completed: false,
     index: tasks.length,
@@ -15,12 +14,12 @@ export const addTask = (description) => {
   return tasks;
 };
 
-export const removeTask = (id, tasks) => tasks.filter((task) => task.id !== id);
+export const removeTask = (index, tasks) => tasks.filter((task) => task.index !== index);
 
-export const editTask = (id, newDesc) => {
+export const editTask = (index, newDesc) => {
   const tasks = JSON.parse(localStorage.getItem('tasks')) ?? [];
   tasks.map((task) => {
-    if (task.id === id) {
+    if (task.index === index) {
       task.description = newDesc;
     }
     return task;
@@ -33,7 +32,7 @@ export const renderTasks = () => {
   const taskList = document.getElementById('list');
   taskList.innerHTML = '';
   // sort tasks by index
-  tasks.sort((a, b) => a.id - b.id);
+  tasks.sort((a, b) => a.index - b.index);
 
   tasks.forEach((task) => {
     const li = document.createElement('li');
@@ -55,11 +54,12 @@ export const renderTasks = () => {
     deleteBtn.classList.add('fa', 'fa-trash');
     deleteBtn.setAttribute('aria-hidden', 'true');
     deleteBtn.addEventListener('click', () => {
-      saveTasks(removeTask(task.id, tasks));
-      renderTasks(removeTask(task.id, tasks));
+      saveTasks(removeTask(task.index, tasks));
+      renderTasks(removeTask(task.index, tasks));
     });
     const ellipsis = document.createElement('i');
     ellipsis.classList.add('fa', 'fa-ellipsis-v');
+    ellipsis.id = 'edit';
     ellipsis.setAttribute('aria-hidden', 'true');
     ellipsis.addEventListener('click', () => {
       const input = document.createElement('input');
@@ -70,8 +70,8 @@ export const renderTasks = () => {
         if (event.key === 'Enter') {
           // Update the task description and render the tasks
           taskList.innerHTML = '';
-          renderTasks(editTask(task.id, input.value));
-          saveTasks(editTask(task.id, input.value));
+          renderTasks(editTask(task.index, input.value));
+          saveTasks(editTask(task.index, input.value));
         } else if (event.key === 'Escape') {
           // Cancel editing and render the tasks
           renderTasks(tasks);
@@ -79,6 +79,7 @@ export const renderTasks = () => {
       });
       li.replaceChild(input, span);
       input.focus();
+      document.getElementById('edit').style.display = 'none';
     });
     li.appendChild(deleteBtn);
     li.appendChild(ellipsis);

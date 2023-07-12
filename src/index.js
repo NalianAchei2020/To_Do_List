@@ -16,6 +16,7 @@ todoInput.addEventListener('keypress', (event) => {
       saveTasks(tasks);
       renderTasks();
       todoInput.value = '';
+      console.log('click');
     }
   }
 });
