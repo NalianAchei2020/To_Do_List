@@ -40,6 +40,15 @@ export const editTask = (index, newDesc) => {
   });
   return tasks;
 };
+export const updateTaskStatus = (index, completed, tasks) => {
+  tasks[index].completed = true;
+  return tasks;
+};
+
+export const clearCompletedTasks = (tasks) => {
+  const filteredTasks = tasks.filter((task) => !task.completed);
+  return filteredTasks;
+};
 
 export const renderTasks = () => {
   let tasks;
@@ -62,7 +71,9 @@ export const renderTasks = () => {
     check.type = 'checkbox';
     check.checked = task.completed;
     check.addEventListener('change', () => {
-      task.completed = !task.completed;
+      const indexe = task.index;
+      const completed = check.checked;
+      tasks = updateTaskStatus(indexe, completed, tasks);
       taskList.innerHTML = '';
       saveTasks(tasks);
       renderTasks(tasks);
