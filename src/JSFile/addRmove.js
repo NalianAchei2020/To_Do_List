@@ -1,140 +1,78 @@
-export const saveTasks = (tasks) => {
-  // save tasks to localstorage
-  localStorage.setItem('tasks', JSON.stringify(tasks));
-};
+import Task from './task.js';
 
-export const addTask = (description) => {
-  let tasks;
-
-  try {
-    tasks = JSON.parse(localStorage.getItem('tasks')) ?? [];
-  } catch (error) {
-    tasks = [];
-  }
-
-  const newTask = {
-    description,
-    completed: false,
-    index: tasks.length,
-  };
-  tasks.push(newTask);
-  return tasks;
-};
-
-export const removeTask = (index, tasks) => tasks.filter((task) => task.index !== index);
-
-export const editTask = (index, newDesc) => {
-  let tasks;
-
-  try {
-    tasks = JSON.parse(localStorage.getItem('tasks')) ?? [];
-  } catch (error) {
-    tasks = [];
-  }
-
-  tasks.map((task) => {
-    if (task.index === index) {
-      task.description = newDesc;
+export default class Tasks {
+  constructor() {
+    this.tasksList = document.getElementById('listContainer');
+    this.taskDesc = document.getElementById('desc');
+    this.tasksArray = [];
+    if (localStorage.getItem('TaskStorage')) {
+      this.tasksArray = JSON.parse(localStorage.getItem('TaskStorage'));
+      this.tasksDisplay();
     }
-    return task;
-  });
-  return tasks;
-};
-export const updateTaskStatus = (index, completed, tasks) => {
-  tasks[index].completed = true;
-  return tasks;
-};
-
-export const clearCompletedTasks = (tasks) => {
-  const filteredTasks = tasks.filter((task) => !task.completed);
-  return filteredTasks;
-};
-
-export const renderTasks = () => {
-  let tasks;
-
-  try {
-    tasks = JSON.parse(localStorage.getItem('tasks')) ?? [];
-  } catch (error) {
-    tasks = [];
   }
 
-  const taskList = document.getElementById('list');
-  taskList.innerHTML = '';
-  // sort tasks by index
-  tasks.sort((a, b) => a.index - b.index);
+  addTask = () => {
+    const desc = this.taskDesc.value;
+    const isComplete = false;
+    const task = new Task(desc, isComplete);
+    this.tasksArray.push(task);
+    this.tasksDisplay();
+    this.saveToLocalStorage();
+    this.taskDesc.value = '';
+  };
 
-  tasks.forEach((task) => {
-    const li = document.createElement('li');
-    li.classList = 'listItmes';
-    const check = document.createElement('input');
-    check.type = 'checkbox';
-    check.checked = task.completed;
-    check.addEventListener('change', () => {
-      const indexe = task.index;
-      const completed = check.checked;
-      tasks = updateTaskStatus(indexe, completed, tasks);
-      taskList.innerHTML = '';
-      saveTasks(tasks);
-      renderTasks(tasks);
-    });
-    const span = document.createElement('span');
-    span.textContent = task.description;
-    li.appendChild(check);
-    li.appendChild(span);
+  saveToLocalStorage = () => {
+    localStorage.setItem('TaskStorage', JSON.stringify(this.tasksArray));
+  };
 
-    span.addEventListener('click', () => {
-      const input = document.createElement('input');
-      input.type = 'text';
-      input.value = task.description;
-      input.classList = 'inputEdit';
-      input.addEventListener('keydown', (event) => {
-        if (event.key === 'Enter') {
-          // Update the task description and render the tasks
-          taskList.innerHTML = '';
-          renderTasks(editTask(task.index, input.value));
-          saveTasks(editTask(task.index, input.value));
-        } else if (event.key === 'Escape') {
-          // Cancel editing and render the tasks
-          renderTasks(tasks);
+  tasksDisplay = () => {
+    this.tasksArray.forEach((task, index) => {
+      this.tasksHtml = (desc) => `        <div class="task-container">
+      <input type="checkbox" id="checkBox"></input>
+      <input class="task-desc" type="text" id="taskDesc" value="${desc}"</input>
+      <button id="removeBtn">x</button> 
+      </div>`;
+      const htmlToAdd = this.tasksHtml(task.desc, task.isComplete);
+      this.tasksList.insertAdjacentHTML('afterbegin', htmlToAdd);
+      this.checkBox = document.getElementById('checkBox');
+      if (this.tasksArray[index].isComplete === true) {
+        this.checkBox.checked = true;
+      } else {
+        this.checkBox.checked = false;
+      }
+      this.checkBox.addEventListener('change', (event) => {
+        if (event.currentTarget.checked) {
+          this.tasksArray[index].isComplete = true;
+        } else {
+          this.tasksArray[index].isComplete = false;
         }
+        this.saveToLocalStorage();
       });
-      li.replaceChild(input, span);
-      input.focus();
+      this.removeBtn = document.getElementById('removeBtn');
+      this.removeBtn.onclick = () => this.removeTask(index);
+      this.taskDescription = document.getElementById('taskDesc');
+      this.taskDescription.addEventListener('change', () => {
+        this.editTask(index);
+      });
     });
+  }
 
-    const deleteBtn = document.createElement('i');
-    deleteBtn.classList.add('fa', 'fa-trash');
-    deleteBtn.setAttribute('aria-hidden', 'true');
-    deleteBtn.addEventListener('click', () => {
-      saveTasks(removeTask(task.index, tasks));
-      renderTasks(removeTask(task.index, tasks));
-    });
-    const ellipsis = document.createElement('i');
-    ellipsis.classList.add('fa', 'fa-ellipsis-v');
-    ellipsis.classList = 'edit';
-    ellipsis.setAttribute('aria-hidden', 'true');
-    ellipsis.addEventListener('click', () => {
-      const input = document.createElement('input');
-      input.type = 'text';
-      input.value = task.description;
-      input.classList = 'inputEdit';
-      input.addEventListener('keydown', (event) => {
-        if (event.key === 'Enter') {
-          // Update the task description and render the tasks
-          taskList.innerHTML = '';
-          renderTasks(editTask(task.index, input.value));
-          saveTasks(editTask(task.index, input.value));
-        } else if (event.key === 'Escape') {
-          // Cancel editing and render the tasks
-          renderTasks(tasks);
-        }
-      });
-      li.replaceChild(input, span);
-      input.focus();
-    });
-    li.appendChild(deleteBtn);
-    li.appendChild(ellipsis);
-    taskList.appendChild(li);
-  });
-};
+  removeTask = (index) => {
+    this.tasksArray.splice(index, 1);
+    this.tasksList.innerHTML = '';
+    this.tasksDisplay();
+    this.saveToLocalStorage();
+  };
+
+  clearComplete = () => {
+    this.tasksArray = this.tasksArray.filter((task) => task.isComplete === false);
+    this.tasksList.innerHTML = '';
+    this.tasksDisplay();
+    this.saveToLocalStorage();
+  }
+
+  editTask = (index) => {
+    this.tasksArray[index].desc = this.taskDescription.value;
+    this.saveToLocalStorage();
+  }
+}

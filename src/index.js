@@ -1,38 +1,14 @@
 import './style.css';
-import {
-  addTask, renderTasks, saveTasks, clearCompletedTasks,
-} from './JSFile/addRmove.js';
+import Tasks from './JSFile/addRmove.js';
 
-// Retrieve tasks from local storage if available, or initialize with an empty array
-let tasks;
+const tasks = new Tasks();
+const addTaskBtn = document.getElementById('addBtn');
 
-try {
-  tasks = JSON.parse(localStorage.getItem('tasks')) ?? [];
-} catch (error) {
-  tasks = [];
-}
-
-// Event listeners for adding new tasks
-const todoInput = document.getElementById('todo');
-todoInput.addEventListener('keypress', (event) => {
-  if (event.key === 'Enter') {
-    const todoDesc = todoInput.value;
-    if (todoDesc) {
-      const tasks = addTask(todoDesc);
-      saveTasks(tasks);
-      renderTasks();
-      todoInput.value = '';
-    }
-  }
+addTaskBtn.addEventListener('click', () => {
+  tasks.addTask();
 });
 
-const completeBtn = document.querySelector('.complete');
-completeBtn.addEventListener('click', () => {
-  const taskList = document.getElementById('list');
-  tasks = clearCompletedTasks(tasks);
-  taskList.innerHTML = '';
-  saveTasks(tasks);
-  renderTasks(tasks);
+const clearBtn = document.getElementById('clearBtn');
+clearBtn.addEventListener('click', () => {
+  tasks.clearComplete();
 });
-
-window.addEventListener('load', renderTasks(tasks));
