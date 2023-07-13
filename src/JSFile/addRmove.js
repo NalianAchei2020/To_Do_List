@@ -4,7 +4,14 @@ export const saveTasks = (tasks) => {
 };
 
 export const addTask = (description) => {
-  const tasks = JSON.parse(localStorage.getItem('tasks')) ?? [];
+  let tasks;
+
+  try {
+    tasks = JSON.parse(localStorage.getItem('tasks')) ?? [];
+  } catch (error) {
+    tasks = [];
+  }
+
   const newTask = {
     description,
     completed: false,
@@ -17,7 +24,14 @@ export const addTask = (description) => {
 export const removeTask = (index, tasks) => tasks.filter((task) => task.index !== index);
 
 export const editTask = (index, newDesc) => {
-  const tasks = JSON.parse(localStorage.getItem('tasks')) ?? [];
+  let tasks;
+
+  try {
+    tasks = JSON.parse(localStorage.getItem('tasks')) ?? [];
+  } catch (error) {
+    tasks = [];
+  }
+
   tasks.map((task) => {
     if (task.index === index) {
       task.description = newDesc;
@@ -28,7 +42,14 @@ export const editTask = (index, newDesc) => {
 };
 
 export const renderTasks = () => {
-  const tasks = JSON.parse(localStorage.getItem('tasks')) ?? [];
+  let tasks;
+
+  try {
+    tasks = JSON.parse(localStorage.getItem('tasks')) ?? [];
+  } catch (error) {
+    tasks = [];
+  }
+
   const taskList = document.getElementById('list');
   taskList.innerHTML = '';
   // sort tasks by index
@@ -50,6 +71,27 @@ export const renderTasks = () => {
     span.textContent = task.description;
     li.appendChild(check);
     li.appendChild(span);
+
+    span.addEventListener('click', () => {
+      const input = document.createElement('input');
+      input.type = 'text';
+      input.value = task.description;
+      input.classList = 'inputEdit';
+      input.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter') {
+          // Update the task description and render the tasks
+          taskList.innerHTML = '';
+          renderTasks(editTask(task.index, input.value));
+          saveTasks(editTask(task.index, input.value));
+        } else if (event.key === 'Escape') {
+          // Cancel editing and render the tasks
+          renderTasks(tasks);
+        }
+      });
+      li.replaceChild(input, span);
+      input.focus();
+    });
+
     const deleteBtn = document.createElement('i');
     deleteBtn.classList.add('fa', 'fa-trash');
     deleteBtn.setAttribute('aria-hidden', 'true');
@@ -59,7 +101,7 @@ export const renderTasks = () => {
     });
     const ellipsis = document.createElement('i');
     ellipsis.classList.add('fa', 'fa-ellipsis-v');
-    ellipsis.id = 'edit';
+    ellipsis.classList = 'edit';
     ellipsis.setAttribute('aria-hidden', 'true');
     ellipsis.addEventListener('click', () => {
       const input = document.createElement('input');
@@ -79,7 +121,6 @@ export const renderTasks = () => {
       });
       li.replaceChild(input, span);
       input.focus();
-      document.getElementById('edit').style.display = 'none';
     });
     li.appendChild(deleteBtn);
     li.appendChild(ellipsis);
