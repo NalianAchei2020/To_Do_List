@@ -1,20 +1,23 @@
-* {
+*,
+*::before,
+*::after {
   margin: 0;
   padding: 0;
 }
 
-body{
+body {
   width: 100%;
   height: 100vh;
   background-color: rgb(194, 196, 197);
 }
 
-header, footer{
+header,
+footer {
   background-color: #000;
   height: 3em;
 }
 
-.headine{
+.headine {
   display: flex;
   width: 97%;
   justify-content: space-between;
@@ -23,21 +26,24 @@ header, footer{
   padding-inline: 1em;
 }
 
-.listItmes{
+.listItmes {
   list-style: none;
   margin-bottom: 10px;
   border-bottom: 1px solid rgb(184, 181, 181);
   padding-bottom: 1em;
   padding-inline: 1em;
 }
-input[type="text"]{
+
+#todo {
   border: none;
   outline: none;
   border-bottom: 1px solid rgb(184, 181, 181);
   padding-bottom: 1em;
   padding-inline: 1em;
+  width: 97%;
 }
-.task-container{
+
+.task-container {
   margin-inline: auto;
   margin-block: 6.5em;
   width: 70%;
@@ -48,15 +54,36 @@ input[type="text"]{
   box-sizing: border-box;
   box-shadow: 2px 5px 5px #fff;
   padding-top: 1em;
-  
+  position: relative;
 }
-#refresh{
+
+#refresh {
   color: rgb(117, 112, 112);
 }
-span{
+
+span {
   margin-left: 10px;
 }
-button{
+
+.input-container {
+  position: relative;
+  width: 100%;
+}
+
+.fa-level-down {
+  position: absolute;
+  color: rgb(184, 181, 181);
+  right: 2%;
+  top: 0;
+}
+
+.fa-ellipsis-v {
+  position: absolute;
+  right: 2%;
+  color: rgb(184, 181, 181);
+}
+
+button {
   border: none;
   text-align: center;
   padding-block: 1em;
