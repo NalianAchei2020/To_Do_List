@@ -45,7 +45,7 @@ export const updateTaskStatus = (index, completed, tasks) => {
   return tasks;
 };
 
-export const clearCompletedTasks = (tasks) => {
+export const clrCompletedTasks = (tasks) => {
   const filteredTasks = tasks.filter((task) => !task.completed);
   return filteredTasks;
 };
