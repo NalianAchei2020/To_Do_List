@@ -67,4 +67,20 @@ describe('Task manager', () => {
     tasks = editTask(2, str);
     expect(task.description).toBe('This task is edited');
   });
+  test('updateTaskStatus should update the status of a task', () => {
+    updateTaskStatus(0, true, tasks);
+    expect(tasks[0].completed).toBeTruthy();
+  });
+
+  test('clrCompletedTasks should clear completed tasks', () => {
+    const task = {
+      index: 2,
+      description: 'This is Task 2',
+      completed: true,
+    };
+    tasks = addTask(task.description);
+    clrCompletedTasks(tasks);
+    expect(tasks).toHaveLength(1);
+    expect(tasks).not.toContain(tasks[2]);
+  });
 });
