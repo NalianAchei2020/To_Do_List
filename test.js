@@ -1,4 +1,10 @@
-import { addTask, removeTask } from './src/JSFile/addRmove.js';
+import {
+  addTask,
+  removeTask,
+  editTask,
+  updateTaskStatus,
+  clrCompletedTasks,
+} from './src/JSFile/addRmove.js';
 // Mock localStorage
 
 describe('Task manager', () => {
@@ -48,5 +54,17 @@ describe('Task manager', () => {
     });
     expect(tasks).toHaveLength(1);
     expect(tasks).not.toContain(task);
+  });
+  test('editTask should edit a task', () => {
+    const task = {
+      index: 2,
+      description: 'This is Task 2',
+      completed: false,
+    };
+    tasks = addTask(task.description);
+    const str = 'This task is edited';
+    task.description = str;
+    tasks = editTask(2, str);
+    expect(task.description).toBe('This task is edited');
   });
 });
