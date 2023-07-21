@@ -1,4 +1,4 @@
-import { addTask } from './src/JSFile/addRmove.js';
+import { addTask, removeTask } from './src/JSFile/addRmove.js';
 // Mock localStorage
 
 describe('Task manager', () => {
@@ -34,4 +34,20 @@ describe('Task manager', () => {
     expect(task.index).toBe(0);
     expect(task.completed).toBeFalsy();
   });
+  
+  test('removeTask should remove a task', () => {
+    const task = {
+      index: 1,
+      description: 'This is Task 2',
+      completed: false,
+    };
+    tasks = addTask(task.description);
+    tasks = removeTask(1, tasks);
+    tasks.forEach((task, index) => {
+      expect(task.index).toBe(index);
+    });
+    expect(tasks).toHaveLength(1);
+    expect(tasks).not.toContain(task);
+  });
 });
+
