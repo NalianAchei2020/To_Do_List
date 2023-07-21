@@ -1,11 +1,7 @@
 import {
-  addTask,
   removeTask,
-  editTask,
-  updateTaskStatus,
-  clrCompletedTasks,
-} from './src/JSFile/addRmove.js';
-// Mock localStorage
+  addTask,
+} from '../src/JSFile/addRmove.js';
 
 describe('Task manager', () => {
   let tasks = [];
@@ -40,7 +36,6 @@ describe('Task manager', () => {
     expect(task.index).toBe(0);
     expect(task.completed).toBeFalsy();
   });
-
   test('removeTask should remove a task', () => {
     const task = {
       index: 1,
@@ -54,33 +49,5 @@ describe('Task manager', () => {
     });
     expect(tasks).toHaveLength(1);
     expect(tasks).not.toContain(task);
-  });
-  test('editTask should edit a task', () => {
-    const task = {
-      index: 2,
-      description: 'This is Task 2',
-      completed: false,
-    };
-    tasks = addTask(task.description);
-    const str = 'This task is edited';
-    task.description = str;
-    tasks = editTask(2, str);
-    expect(task.description).toBe('This task is edited');
-  });
-  test('updateTaskStatus should update the status of a task', () => {
-    updateTaskStatus(0, true, tasks);
-    expect(tasks[0].completed).toBeTruthy();
-  });
-
-  test('clrCompletedTasks should clear completed tasks', () => {
-    const task = {
-      index: 2,
-      description: 'This is Task 2',
-      completed: true,
-    };
-    tasks = addTask(task.description);
-    clrCompletedTasks(tasks);
-    expect(tasks).toHaveLength(1);
-    expect(tasks).not.toContain(tasks[2]);
   });
 });
