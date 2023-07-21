@@ -1,9 +1,6 @@
 import './style.css';
 import {
-  addTask,
-  renderTasks,
-  saveTasks,
-  clrCompletedTasks,
+  addTask, renderTasks, saveTasks, clrCompletedTasks,
 } from './JSFile/addRmove.js';
 
 // Retrieve tasks from local storage if available, or initialize with an empty array
@@ -32,10 +29,10 @@ todoInput.addEventListener('keypress', (event) => {
 const completeBtn = document.querySelector('.complete');
 completeBtn.addEventListener('click', () => {
   const taskList = document.getElementById('list');
-  const filteredTasks = clrCompletedTasks(tasks);
+  tasks = clrCompletedTasks(tasks);
   taskList.innerHTML = '';
-  saveTasks(filteredTasks);
-  renderTasks(filteredTasks);
+  saveTasks(tasks);
+  renderTasks(tasks);
 });
 
 window.addEventListener('load', renderTasks(tasks));
