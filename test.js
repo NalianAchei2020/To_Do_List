@@ -34,7 +34,7 @@ describe('Task manager', () => {
     expect(task.index).toBe(0);
     expect(task.completed).toBeFalsy();
   });
-  
+
   test('removeTask should remove a task', () => {
     const task = {
       index: 1,
@@ -50,4 +50,3 @@ describe('Task manager', () => {
     expect(tasks).not.toContain(task);
   });
 });
-
